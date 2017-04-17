@@ -1,5 +1,5 @@
 [Socket]
-ListenStream=/run/slnn-test.sk
+ListenStream=/run/test.sk
 
 [Install]
 WantedBy=sockets.target

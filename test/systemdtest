@@ -1,5 +1,5 @@
 [Unit]
-Description=slnn-test
+Description=test
 
 [Service]
 ExecStart=someexec
@@ -7,7 +7,7 @@ WorkingDirectory=cwd
 Restart=always
 StandardOutput=syslog
 StandardError=syslog
-SyslogIdentifier=slnn-test
+SyslogIdentifier=test
 Environment=NODE_ENV=production
 
 [Install]
