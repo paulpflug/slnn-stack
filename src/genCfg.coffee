@@ -1,6 +1,6 @@
 fs = require "fs-extra"
 {isObject} = require "./helper"
-
+isArray = (arr) -> Array.isArray(arr)
 objTo =
   systemd: (obj) ->
     str = ""
@@ -13,12 +13,19 @@ objTo =
   nginx: (obj) ->
     str = "server {\n"
     for k,v of obj
-      unless isObject(v)
+      if isArray(v)
+        for k2 in v
+          str += "  #{k} #{k2};\n"
+      else unless isObject(v)
         str += "  #{k} #{v};\n"
       else
         str += "  #{k} {\n"
         for k2,v2 of v
-          str += "    #{k2} #{v2};\n"
+          if isArray(v2)
+            for k3 in v2
+              str += "    #{k2} #{k3};\n"
+          else
+            str += "    #{k2} #{v2};\n"
         str += "  }\n"
     str += "}\n"
     return str
