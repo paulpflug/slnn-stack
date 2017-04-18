@@ -66,20 +66,28 @@ module.exports ={
     # first domain will be main domain, all other will redirect
     "someDomain"
   ],
-  nginx: {},
+  # nginx config.
+  # use object to overwrite default
+  nginx: {
+    listen: 8080,
+    "location /some":{
+      options: "of some location"
+    }
+  },
   letsencrypt: {},
   # systemd config:
+  # use object to overwrite default
   systemd: {
     Unit:{
       Wants: "some-other-service"
     }
   },
   socket: {}, # to enable systemd socket
-  port: 9010 # port used server side
+  port: 9010 # port used server side when not using socket
 }
 ```
 
-### Using systemd socket
+### Using systemd socket in Node
 
 ```js
 var port = process.env.LISTEN_FDS ? {fd:3} : 8080

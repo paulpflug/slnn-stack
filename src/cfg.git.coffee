@@ -13,8 +13,8 @@ do
     git reset HEAD --hard
     echo "slnn: installing node modules"
     npm install --production
-    echo "slnn: restarting service slnn-#{cfg.name}"
-    service restart slnn-#{cfg.name}
+    echo "slnn: restarting service #{cfg.name}"
+    service restart #{cfg.name}
   elif [ "clientside" = "$branch" ]; then
     git branch -q -d clientside
     echo "slnn: checkout serverside branch"
