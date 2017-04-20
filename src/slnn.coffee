@@ -54,7 +54,7 @@ module.exports = (program) ->
             log "maybe you need root rights"
     # not remote setup
     await run folder, 
-      "if grep -q 'master' .git/HEAD ; then #{echo('npm install')} && npm install --production && #{echo('restart service')} && service restart slnn-#{cfg.name} ; fi"
+      "if grep -q 'master' .git/HEAD ; then #{echo('npm install')} && npm install --production && #{echo('restart service')} && service #{cfg.name} restart; fi"
   else if (gitpath = program.deploy) and (folder = get.cwd(program.cwd))
     cfg = getCfg folder
     cfg.silent ?= program.silent

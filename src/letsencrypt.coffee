@@ -27,7 +27,7 @@ module.exports = (cfg) ->
   await run "",
     "service nginx stop"
     echo "letsencrypt", "getting certificates"
-    "certbot certonly --standalone -n --agree-tos #{domains} --post-hook 'service nginx restart"
+    "certbot certonly --standalone -n --agree-tos #{domains} --post-hook 'service nginx restart'"
     "service nginx start"
     #echo "letsencrypt", "setting up renew"
     #"certbot renew -n '"

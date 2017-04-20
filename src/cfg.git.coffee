@@ -14,7 +14,7 @@ do
     echo "slnn: installing node modules"
     npm install --production
     echo "slnn: restarting service #{cfg.name}"
-    service restart #{cfg.name}
+    service #{cfg.name} restart
   elif [ "clientside" = "$branch" ]; then
     git branch -q -d clientside
     echo "slnn: checkout serverside branch"
