@@ -25,9 +25,9 @@ module.exports = (cfg) ->
     return
   domains = cfg.domains.map((d) -> "-d #{d}").join(" ")
   await run "",
-    "service nginx stop"
+    "systemctl stop nginx"
     echo "letsencrypt", "getting certificates"
-    "certbot certonly --standalone -n --agree-tos #{domains} --post-hook 'service nginx restart'"
-    "service nginx start"
+    "certbot certonly --standalone -n --agree-tos #{domains} --renew-hook 'systemctl restart nginx'"
+    "systemctl start nginx"
     #echo "letsencrypt", "setting up renew"
     #"certbot renew -n '"
