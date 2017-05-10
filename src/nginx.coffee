@@ -3,7 +3,7 @@ which = require "which"
 url = require "url"
 genCfg = require "./genCfg"
 {isObject} = require "./helper"
-p = (type, domain) -> "/etc/nginx/sites-#{type}/#{domain}"
+p = (type, domain, custom) -> "/etc/nginx/sites-#{type}/#{domain}"
 available = "available"
 enabled = "enabled"
 
@@ -13,7 +13,7 @@ module.exports = (cfg) ->
   {log} = require("./log")(cfg.silent)
   log "setting up nginx"
   unless (customPath = cfg.paths?.nginx)
-    if cfg.domains
+    if cfg.domains and not cfg.force
       for domain in cfg.domains.concat([cfg.name])
         if fs.existsSync(p(available,domain))
           log "nginx", "found configuration for #{domain}"
@@ -23,6 +23,11 @@ module.exports = (cfg) ->
       which.sync "nginx"
     catch 
       log "nginx", "nginx not found"
+      log "nginx", "cancel setup"
+      return
+  else
+    if fs.existsSync(customPath) and not cfg.force
+      log "nginx", "found configuration in #{customPath}"
       log "nginx", "cancel setup"
       return
   cfg.domains ?= []

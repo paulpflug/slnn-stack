@@ -2,7 +2,9 @@
 
 systemd, letsencrypt, node and nginx stack.
 
-Combined with two-way push-to-deploy, with local merging and live pushing
+Combined with two-way push-to-deploy, with local merging and live pushing.
+
+Useful default settings for fast deploying.
 
 ### Install
 
@@ -32,6 +34,20 @@ npm install -g slnn-stack
 ### Usage
 
 ```sh
+Usage: slnn [options]
+
+  Options:
+
+    -h, --help        output usage information
+    -V, --version     output the version number
+    init [folder]     init slnn stack
+    setup [type]      setups slnn stack. Type can be omitted or be one of git, nginx, systemd or letsencrypt
+    -f, --force       only with setup, overwrites existing configs
+    deploy [gitpath]  deploys local copy
+    pull              get remote changes
+
+
+### examples:
 # server
 slnn init /some/folder
 # or
@@ -40,12 +56,13 @@ cd /some/folder && slnn init
 
 # dev machine in project folder
 slnn deploy ssh://url-to/remote/repo
-# (will call slnn setup on server side)
+# (will automatically call slnn setup on server side)
 
-# you can manually call slnn setup
-slnn setup /some/folder
-# or
+# you can manually call slnn setup inside remote folder
 cd /some/folder && slnn setup
+
+# to rewrite e.g. nginx config after you did some changes:
+cd /some/folder && slnn setup nginx --force
 
 # dev machine in project folder for future deploys
 slnn deploy
@@ -54,7 +71,7 @@ slnn deploy
 ### Options
 slnn expects a file `slnn.js` in project folder
 ```coffee
-module.exports ={
+module.exports = {
   name: "project name",
   main: "server/index.js", # entry file on server side
 
@@ -83,7 +100,13 @@ module.exports ={
     }
   },
   socket: {}, # to enable systemd socket
-  port: 9010 # port used server side when not using socket
+  port: 9010, # port used server side when not using socket
+  hooks: {
+    # server side bash script
+    beforeStop: ["echo 'service will be stopped shortly'"]
+    beforeStart: [""]
+    afterStart: [""]
+  }
 }
 ```
 

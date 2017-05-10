@@ -48,8 +48,16 @@ describe "slnn", ->
       genCfg.byTemplate filename: testFile, cfgname:"git.init", cfg:silent: true
       read(testFile).should.equal require("../src/cfg.git.init.coffee")()
     it "should create git post receive hook by template", ->
-      genCfg.byTemplate filename: testFile, cfgname:"git", cfg:name: "test",silent: true
-      read(testFile).should.equal require("../src/cfg.git.coffee")(name:"test")
+      genCfg.byTemplate 
+        filename: testFile
+        cfgname:"git"
+        cfg:
+          name: "test"
+          silent: true
+          hooks: 
+            beforeStart: "echo 'test'"
+            beforeStop: ["test1","test2"]
+      read(testFile).should.equal read(p2("gittest"))
     it "should create systemd service", ->
       genCfg.byDefault 
         filename: testFile

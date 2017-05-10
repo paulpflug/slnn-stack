@@ -22,6 +22,11 @@ module.exports = (cfg) ->
   {log, echo} = require("./log")(cfg.silent)
   log "setting up systemd"
   customPath = cfg.paths?.systemd
+  if not cfg.force and fs.existsSync((name = p(cfg.name,"service",customPath)))
+    log "systemd", "found service in #{name}"
+    log "systemd", "cancel setup"
+    return
+  
   genCfg = genCfg.use(cfg)
   genCfg.byDefault 
     filename: p(cfg.name,"service",customPath)
