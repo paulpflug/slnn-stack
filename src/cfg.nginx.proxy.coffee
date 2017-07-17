@@ -1,5 +1,5 @@
 module.exports = (cfg, options) ->  
-  listen: 80
+  listen: ["80","[::]:80"]
   server_name: if options then options else cfg.domains?.join " "
   "location /":
     proxy_set_header: [

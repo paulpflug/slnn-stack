@@ -43,7 +43,8 @@ module.exports = (cfg) ->
     domains[hostname].push domain
   str = ""
   toNginx = genCfg.objTo.nginx
-  unless cfg.letsencrypt # no ssl
+  if not cfg.letsencrypt or # no ssl
+      cfg.domains.length == 0 # no domain for ssl
     str += toNginx genCfg.mergeWithDefault 
       cfgname: "nginx.proxy"
       objToMerge: cfg.nginx.noSSL or cfg.nginx

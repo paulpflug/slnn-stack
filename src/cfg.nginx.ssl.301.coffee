@@ -1,5 +1,8 @@
 module.exports = (cfg, options) ->
-  listen: 443
+  listen: [
+    "443"
+    "[::]:443"
+    ]
   ssl: "on"
   ssl_certificate: "/etc/letsencrypt/live/#{mainDomain = cfg.domains[0]}/fullchain.pem"
   ssl_certificate_key: "/etc/letsencrypt/live/#{mainDomain}/privkey.pem"
