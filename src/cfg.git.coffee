@@ -15,7 +15,7 @@ module.exports = (cfg) ->
         echo "slnn: checkout master"
         git checkout -q master || git checkout -q -b master
         echo "slnn: delete serverside branch"
-        git branch -q -d serverside
+        git branch -q -D serverside
         git reset HEAD --hard
         #{getHook("beforeInstall")}
         echo "slnn: installing node modules"
@@ -28,7 +28,7 @@ module.exports = (cfg) ->
         #{getHook("afterStart")}
       elif [ "clientside" = "$branch" ]; then
         echo "slnn: checkout serverside branch"
-        git checkout -q -b serverside
+        git checkout -q serverside || git checkout -q -b serverside
         echo "slnn: commit serverside changes"
         git add .
         git commit -q -m "serverside changes"

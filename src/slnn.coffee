@@ -77,10 +77,14 @@ module.exports = (program) ->
         "#{echo('setting up remote url')}"
         "git remote add slnn #{gitpath} || git remote set-url slnn #{gitpath}"
     await run deployFolder, 
+      "#{echo('stash changes')}",
+      "git stash -q || true",
       "#{echo('checkout clientside branch')}",
-      "git checkout -q -b clientside || git checkout -q clientside",
-      "git add .",
+      "git checkout -q clientside || git checkout -q -b clientside",
+      "#{echo('unstash changes')}",
+      "git stash pop -q || true",
       "#{echo('commit all changes')}",
+      "git add .",
       "git commit -q -m 'clientside' || true",
       "#{echo('push clientside branch')}",
       "git push -q slnn clientside",
