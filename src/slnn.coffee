@@ -74,27 +74,27 @@ module.exports = (program) ->
     await gitInit deployFolder
     if gitpath && gitpath != true
       await run deployFolder, 
-        "#{echo('setting up remote url')}"
+        echo('setting up remote url'),
         "git remote add slnn #{gitpath} || git remote set-url slnn #{gitpath}"
     await run deployFolder, 
-      "#{echo('stash changes')}",
+      echo('stash changes'),
       "git stash -q || true",
-      "#{echo('checkout clientside branch')}",
+      echo('checkout clientside branch'),
       "git checkout -q clientside || git checkout -q -b clientside",
-      "#{echo('unstash changes')}",
+      echo('unstash changes'),
       "git stash pop -q || true",
-      "#{echo('commit all changes')}",
+      echo('commit all changes'),
       "git add .",
       "git commit -q -m 'clientside' || true",
-      "#{echo('push clientside branch')}",
+      echo('push clientside branch'),
       "git push -q slnn clientside",
-      "#{echo('checkout master branch')}"
+      echo('checkout master branch')
       "git checkout -q  master || git checkout -q  -b master"
-      "#{echo('fetch & merge serverside branch')}"
+      echo('fetch & merge serverside branch')
       "git pull -q  slnn serverside || #{echo('no changes on serverside')}",
-      "#{echo('merge clientside branch')}"
+      echo('merge clientside branch')
       "git merge -q clientside -m 'merge clientside'",
-      "#{echo('push master')}"
+      echo('push master')
       "git push slnn master"
   else if program.pull and (folder = get.cwd(program.cwd))
     cfg = getCfg folder
@@ -104,19 +104,19 @@ module.exports = (program) ->
     log "PULL"
     deployFolder = path.resolve folder, cfg.deploy
     await run deployFolder, 
-      "#{echo('stash changes')}",
+      echo('stash changes'),
       "git stash",
-      "#{echo('checkout clientside branch')}",
+      echo('checkout clientside branch'),
       "git checkout -q clientside || git checkout -q -b clientside",
-      "#{echo('push clientside branch')}",
+      echo('push clientside branch'),
       "git push -q slnn clientside",
-      "#{echo('checkout master branch')}"
+      echo('checkout master branch')
       "git checkout -q master || git checkout -q -b master"
-      "#{echo('fetch & merge serverside branch')}"
+      echo('fetch & merge serverside branch')
       "git pull -q  slnn serverside || #{echo('no changes on serverside')}",
-      "#{echo('push master')}"
+      echo('push master')
       "git push slnn master"
-      "#{echo('unstash changes')}",
+      echo('unstash changes'),
       "git stash pop",
 
 

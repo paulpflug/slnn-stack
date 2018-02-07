@@ -1,2 +1,4 @@
---compilers coffee:coffeescript/register
+--require coffeescript/register
 --timeout 10000
+
+test/test.coffee

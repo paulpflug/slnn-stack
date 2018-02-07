@@ -27,7 +27,7 @@ module.exports = (cfg) ->
   await run "",
     "systemctl stop nginx"
     echo "letsencrypt", "getting certificates"
-    "certbot certonly --standalone -n --agree-tos #{domains} --renew-hook 'systemctl restart nginx'"
+    "certbot certonly --standalone -n --agree-tos #{domains} --pre-hook 'systemctl stop nginx' --post-hook 'systemctl start nginx'"
     "systemctl start nginx"
     #echo "letsencrypt", "setting up renew"
     #"certbot renew -n '"
